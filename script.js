@@ -234,6 +234,15 @@ g.appendChild(d)});
 document.querySelectorAll('.del-btn').forEach(b=>b.addEventListener('click',()=>{
 if(confirm('Delete this car?')){const cars=getCars().filter(x=>x.id!==+b.dataset.id);saveCars(cars);renderCars();renderManage();showToast('Car deleted')}}));}
 
+document.getElementById('wipeDataBtn')?.addEventListener('click', () => {
+  if(confirm('Are you SURE you want to delete ALL cars to free up browser memory? This cannot be undone.')){
+    localStorage.removeItem(STORE_KEY);
+    renderCars();
+    renderManage();
+    showToast('All cars deleted. Memory cleared!');
+  }
+});
+
 // ===== TOAST =====
 function showToast(m){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
 
