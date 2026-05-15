@@ -25,12 +25,21 @@ function animC(){document.querySelectorAll('.stat-num').forEach(e=>{const t=+e.d
 const sO=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){animC();sO.unobserve(x.target)}}),{threshold:.5});
 document.querySelector('.hero-stats')&&sO.observe(document.querySelector('.hero-stats'));
 
-// ===== CAR DATA =====
-const STORE_KEY='c4w_cars';
-function getCars(){return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}
-function saveCars(c){localStorage.setItem(STORE_KEY,JSON.stringify(c))}
+// ===== FIREBASE INIT =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Removed Demo cars block
+const firebaseConfig = {
+  apiKey: "AIzaSyDtHM_9KjduZKX6f2KXNXLyZ7d1STjHXcQ",
+  authDomain: "chittor4wheels.firebaseapp.com",
+  projectId: "chittor4wheels",
+  storageBucket: "chittor4wheels.firebasestorage.app",
+  messagingSenderId: "600780023231",
+  appId: "1:600780023231:web:b2b85c5b32fdc6bdf56d0a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+let allCars = [];
 
 // ===== RENDER CARS =====
 const FB='https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop';
@@ -41,7 +50,7 @@ function getMainImg(car){
 }
 function renderCars(){
 const g=document.getElementById('carGrid'),e=document.getElementById('emptyState');
-const cars=getCars();
+const cars=allCars;
 g.innerHTML='';
 if(!cars.length){e.style.display='block';return}
 e.style.display='none';
@@ -53,9 +62,19 @@ d.innerHTML=`<div class="car-card-img"><img src="${getMainImg(car)}" alt="${car.
 <div class="car-card-specs"><div class="car-spec"><i class="fas fa-calendar-alt"></i> ${car.year}</div><div class="car-spec"><i class="fas fa-gas-pump"></i> ${car.fuel}</div></div>
 <div class="car-card-footer"><button class="btn btn-glow vbtn" data-id="${car.id}"><i class="fas fa-eye"></i> View</button><a href="https://wa.me/919413316324?text=Hi%2C%20I%20am%20interested%20in%20${encodeURIComponent(car.name)}" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Enquire</a></div></div>`;
 g.appendChild(d)});
-document.querySelectorAll('.vbtn').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();openModal(+b.dataset.id)}));
+document.querySelectorAll('.vbtn').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();openModal(b.dataset.id)}));
 }
-renderCars();
+
+// Listen to Firestore
+const q = query(collection(db, "cars"), orderBy("createdAt", "desc"));
+onSnapshot(q, (snapshot) => {
+  allCars = [];
+  snapshot.forEach((doc) => {
+    allCars.push({ id: doc.id, ...doc.data() });
+  });
+  renderCars();
+  if(isAdmin) renderManage();
+});
 
 // ===== MODAL WITH GALLERY =====
 let modalImages=[];
@@ -72,7 +91,7 @@ function updateGallery(){
 }
 
 function openModal(id){
-const c=getCars().find(x=>x.id===id);if(!c)return;
+const c=allCars.find(x=>x.id===id);if(!c)return;
 modalImages=c.images||[c.image||FB];
 modalIdx=0;
 document.getElementById('modalImg').src=modalImages[0];
@@ -194,10 +213,14 @@ try {
     }
   }
 
-  const cars=getCars();
-  cars.unshift({id:Date.now(),name:document.getElementById('carName').value,year:+document.getElementById('carYear').value,
-  fuel:document.getElementById('carFuel').value,images:uploadedUrls});
-  saveCars(cars);renderCars();renderManage();e.target.reset();imgDataArr=[];
+    await addDoc(collection(db, "cars"), {
+      name: document.getElementById('carName').value,
+      year: +document.getElementById('carYear').value,
+      fuel: document.getElementById('carFuel').value,
+      images: uploadedUrls,
+      createdAt: Date.now()
+    });
+    e.target.reset();imgDataArr=[];
   const p=document.getElementById('uploadPreview');p.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Preview</p>';p.classList.remove('has-img');
   document.getElementById('thumbPreview').innerHTML='';
   document.getElementById('fileDisplay').querySelector('span').textContent='Upload photos';
@@ -214,7 +237,7 @@ try {
 // ===== MANAGE / DELETE =====
 function renderManage(){
 const g=document.getElementById('manageGrid');if(!g)return;
-const cars=getCars();g.innerHTML='';
+const cars=allCars;g.innerHTML='';
 if(!cars.length){g.innerHTML='<p style="color:var(--txt2)">No cars listed yet.</p>';return}
 cars.forEach(c=>{
 const d=document.createElement('div');d.className='manage-item';
@@ -222,17 +245,16 @@ const imgSrc=getMainImg(c);
 const count=c.images?c.images.length:1;
 d.innerHTML=`<img src="${imgSrc}" alt="${c.name}" onerror="this.src='${FB}'"><div><h4>${c.name}</h4><p>${c.year} • ${c.fuel} • ${count} photo${count>1?'s':''}</p></div><button class="del-btn" data-id="${c.id}"><i class="fas fa-trash"></i></button>`;
 g.appendChild(d)});
-document.querySelectorAll('.del-btn').forEach(b=>b.addEventListener('click',()=>{
-if(confirm('Delete this car?')){const cars=getCars().filter(x=>x.id!==+b.dataset.id);saveCars(cars);renderCars();renderManage();showToast('Car deleted')}}));}
+document.querySelectorAll('.del-btn').forEach(b=>b.addEventListener('click',async ()=>{
+if(confirm('Delete this car?')){
+  const btn = b;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  btn.disabled = true;
+  await deleteDoc(doc(db, "cars", b.dataset.id));
+  showToast('Car deleted');
+}}));}
 
-document.getElementById('wipeDataBtn')?.addEventListener('click', () => {
-  if(confirm('Are you SURE you want to delete ALL cars to free up browser memory? This cannot be undone.')){
-    localStorage.removeItem(STORE_KEY);
-    renderCars();
-    renderManage();
-    showToast('All cars deleted. Memory cleared!');
-  }
-});
+
 
 // ===== TOAST =====
 function showToast(m){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
