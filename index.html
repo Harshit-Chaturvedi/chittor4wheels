@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chittor4Wheels — Buy & Sell Premium Used Cars | Chittorgarh</title>
+    <meta name="description" content="Chittor4Wheels — Chittorgarh's #1 trusted dealer for buying & selling used cars. Finance available.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="introScreen">
+  <div class="intro-bg"><img src="intro-car.png" alt="" class="intro-bg-img"></div>
+  <div class="intro-overlay"></div>
+  <div class="speed-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="intro-content">
+    <div class="intro-logo"><img src="logo.png" alt="" class="intro-logo-img"></div>
+    <h1 class="intro-title">CHITTOR<span>4</span>WHEELS</h1>
+    <p class="intro-sub">Premium Used Cars • Buy & Sell • Finance Available</p>
+    <div class="intro-loader"><div class="intro-loader-bar"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">
+      <img src="logo.png" alt="Logo" class="logo-img">
+      <span class="logo-text">CHITTOR<span class="accent">4</span>WHEELS</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#cars" class="nav-link">Cars</a>
+      <a href="#finance" class="nav-link">Finance</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="javascript:void(0)" class="nav-link nav-admin" id="adminToggleBtn"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-bg"><img src="hero-bg.png" alt="" class="hero-bg-img"><div class="hero-overlay"></div></div>
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-crown"></i> CHITTORGARH'S MOST TRUSTED CAR DEALER</div>
+    <h1 class="hero-title"><span class="line1">YOUR DREAM</span><span class="line2">CAR <span class="glow-text">AWAITS</span></span></h1>
+    <p class="hero-sub">Buy & sell premium used cars with confidence. Finance options available on all vehicles.</p>
+    <div class="hero-btns">
+      <a href="#cars" class="btn btn-glow"><i class="fas fa-car"></i> View Cars</a>
+      <a href="https://wa.me/919413316324" class="btn btn-glass" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" data-target="500">0</span>+<div class="stat-lbl">Cars Sold</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num" data-target="10">0</span>+<div class="stat-lbl">Years Trust</div></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num" data-target="100">0</span>%<div class="stat-lbl">Satisfaction</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="mouse"><div class="wheel"></div></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-content">
+    <span>🚗 PREMIUM USED CARS</span><span>💰 FINANCE AVAILABLE</span><span>✅ VERIFIED & INSPECTED</span>
+    <span>📞 CALL: 9413316324</span><span>🏆 10+ YEARS TRUSTED</span><span>🔄 BUY • SELL • EXCHANGE</span>
+    <span>🚗 PREMIUM USED CARS</span><span>💰 FINANCE AVAILABLE</span><span>✅ VERIFIED & INSPECTED</span>
+    <span>📞 CALL: 9413316324</span><span>🏆 10+ YEARS TRUSTED</span><span>🔄 BUY • SELL • EXCHANGE</span>
+  </div>
+</div>
+
+<!-- CARS -->
+<section id="cars" class="section cars-section">
+  <div class="container">
+    <div class="sec-head"><div class="sec-badge"><i class="fas fa-fire"></i> OUR COLLECTION</div><h2>Available <span class="glow-text">Cars</span></h2><p>Handpicked, inspected & ready to drive. Contact us for details.</p></div>
+    <div class="filter-bar">
+      <button class="fbtn active" data-filter="all"><i class="fas fa-th"></i> All</button>
+      <button class="fbtn" data-filter="sedan"><i class="fas fa-car-side"></i> Sedan</button>
+      <button class="fbtn" data-filter="suv"><i class="fas fa-truck-monster"></i> SUV</button>
+      <button class="fbtn" data-filter="hatchback"><i class="fas fa-car"></i> Hatchback</button>
+    </div>
+    <div class="car-grid" id="carGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none"><i class="fas fa-car-side"></i><h3>No Cars Available Right Now</h3><p>New stock coming soon!</p><a href="https://wa.me/919413316324" class="btn btn-glow" target="_blank"><i class="fab fa-whatsapp"></i> Enquire</a></div>
+  </div>
+</section>
+
+<!-- FINANCE -->
+<section id="finance" class="section finance-section">
+  <div class="container">
+    <div class="sec-head"><div class="sec-badge"><i class="fas fa-hand-holding-usd"></i> EASY FINANCE</div><h2>Drive Now, <span class="glow-text">Pay Later</span></h2><p>Easy finance on all cars. Low EMI, quick approval!</p></div>
+    <div class="finance-grid">
+      <div class="finance-card"><div class="fc-icon"><i class="fas fa-percentage"></i></div><h3>Low Interest</h3><p>Best rates starting from 8.5% per annum.</p></div>
+      <div class="finance-card"><div class="fc-icon"><i class="fas fa-clock"></i></div><h3>Quick Approval</h3><p>Loan approved within 24 hours.</p></div>
+      <div class="finance-card"><div class="fc-icon"><i class="fas fa-wallet"></i></div><h3>Flexible EMI</h3><p>12 to 60 months tenure.</p></div>
+      <div class="finance-card"><div class="fc-icon"><i class="fas fa-file-signature"></i></div><h3>Easy Docs</h3><p>Just Aadhar, PAN & bank statement.</p></div>
+    </div>
+    <div class="finance-cta"><p>Interested? Call or WhatsApp for instant help!</p><div class="finance-btns"><a href="tel:+919413316324" class="btn btn-glow"><i class="fas fa-phone-alt"></i> Call Now</a><a href="https://wa.me/919413316324?text=Hi%20I%20need%20car%20finance%20info" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section about-section">
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-left">
+        <div class="sec-badge"><i class="fas fa-trophy"></i> ABOUT US</div>
+        <h2>Why <span class="glow-text">Chittor4Wheels</span>?</h2>
+        <p class="about-desc">Run by <strong>Rajendra Chaturvedi</strong>, Chittor4Wheels has been Chittorgarh's most trusted name in pre-owned cars for over a decade.</p>
+        <div class="about-features">
+          <div class="af"><div class="af-icon"><i class="fas fa-check-double"></i></div><div><h4>Multi-Point Inspection</h4><p>Every car checked thoroughly</p></div></div>
+          <div class="af"><div class="af-icon"><i class="fas fa-handshake"></i></div><div><h4>Transparent Deals</h4><p>No hidden charges</p></div></div>
+          <div class="af"><div class="af-icon"><i class="fas fa-file-contract"></i></div><div><h4>Paperwork Support</h4><p>RC transfer, insurance & more</p></div></div>
+          <div class="af"><div class="af-icon"><i class="fas fa-hand-holding-usd"></i></div><div><h4>Finance Available</h4><p>Easy EMI on all cars</p></div></div>
+        </div>
+      </div>
+      <div class="about-right">
+        <div class="owner-card"><div class="owner-avatar"><i class="fas fa-user-tie"></i></div><h3>Rajendra Chaturvedi</h3><p class="owner-role">Owner & Founder</p>
+          <div class="owner-contacts"><a href="tel:+919413316324"><i class="fas fa-phone-alt"></i> 9413316324</a><a href="tel:+919602453324"><i class="fas fa-phone-alt"></i> 9602453324</a><a href="https://wa.me/919413316324" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
+        </div>
+        <div class="stats-grid">
+          <div class="scard"><i class="fas fa-car-side"></i><h3>500+</h3><p>Cars Sold</p></div>
+          <div class="scard"><i class="fas fa-smile-beam"></i><h3>350+</h3><p>Happy Families</p></div>
+          <div class="scard"><i class="fas fa-award"></i><h3>10+</h3><p>Years Trusted</p></div>
+          <div class="scard"><i class="fas fa-map-marker-alt"></i><h3>#1</h3><p>In Chittorgarh</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="container">
+    <div class="sec-head"><div class="sec-badge"><i class="fas fa-envelope"></i> GET IN TOUCH</div><h2>Contact <span class="glow-text">Us</span></h2></div>
+    <div class="contact-grid">
+      <div class="ccard"><div class="cc-icon"><i class="fas fa-user-tie"></i></div><h4>Owner</h4><p>Rajendra Chaturvedi</p></div>
+      <div class="ccard"><div class="cc-icon"><i class="fas fa-phone-alt"></i></div><h4>Call Us</h4><p><a href="tel:+919413316324">9413316324</a><br><a href="tel:+919602453324">9602453324</a></p></div>
+      <div class="ccard"><div class="cc-icon"><i class="fab fa-whatsapp"></i></div><h4>WhatsApp</h4><a href="https://wa.me/919413316324" class="btn btn-whatsapp btn-sm" target="_blank"><i class="fab fa-whatsapp"></i> Chat Now</a></div>
+      <div class="ccard"><div class="cc-icon"><i class="fas fa-map-marker-alt"></i></div><h4>Location</h4><a href="https://maps.app.goo.gl/NSm4kxG3PYmzEUXi9" class="btn btn-glass btn-sm" target="_blank"><i class="fas fa-directions"></i> Directions</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADMIN SIDEBAR -->
+<div class="admin-sidebar-overlay" id="adminOverlay"></div>
+<div class="admin-sidebar" id="adminSidebar">
+  <div class="admin-sb-header">
+    <h3><i class="fas fa-shield-alt"></i> Admin Panel</h3>
+    <button class="admin-sb-close" id="adminCloseBtn"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="admin-sb-body">
+    <div class="admin-login" id="adminLogin">
+      <i class="fas fa-lock" style="font-size:2rem;color:var(--accent);margin-bottom:1rem"></i>
+      <h4>Owner Access Only</h4>
+      <p style="color:var(--txt2);font-size:.85rem;margin:.5rem 0 1rem">Enter password to manage</p>
+      <div class="login-form"><input type="password" id="adminPass" placeholder="Enter Password"><button class="btn btn-glow btn-full" id="adminLoginBtn"><i class="fas fa-unlock"></i> Login</button></div>
+      <p class="login-error" id="loginError"></p>
+    </div>
+    <div class="admin-dash" id="adminDash" style="display:none">
+      <div class="admin-header"><h4><i class="fas fa-tachometer-alt"></i> Welcome, Rajendra Ji</h4><button class="btn btn-glass btn-sm" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
+      <div class="upload-preview" id="uploadPreview"><i class="fas fa-cloud-upload-alt"></i><p>Preview</p></div>
+      <form class="upload-form" id="carForm">
+        <div class="fgroup"><label><i class="fas fa-car"></i> Car Name</label><input type="text" id="carName" placeholder="e.g., Maruti Swift VXI" required></div>
+        <div class="frow"><div class="fgroup"><label><i class="fas fa-calendar"></i> Year</label><input type="number" id="carYear" placeholder="2022" required></div><div class="fgroup"><label><i class="fas fa-tachometer-alt"></i> KM</label><input type="number" id="carKm" placeholder="35000" required></div></div>
+        <div class="frow"><div class="fgroup"><label><i class="fas fa-gas-pump"></i> Fuel</label><select id="carFuel" required><option value="">Select</option><option>Petrol</option><option>Diesel</option><option>CNG</option><option>Electric</option></select></div><div class="fgroup"><label><i class="fas fa-list"></i> Type</label><select id="carType" required><option value="">Select</option><option value="sedan">Sedan</option><option value="suv">SUV</option><option value="hatchback">Hatchback</option></select></div></div>
+        <div class="fgroup file-group"><label><i class="fas fa-images"></i> Photos</label><div class="file-wrap"><input type="file" id="carImage" accept="image/*" multiple required><div class="file-display" id="fileDisplay"><i class="fas fa-cloud-upload-alt"></i><span>Upload photos</span><small>Up to 10 photos</small></div></div></div>
+        <div class="thumb-preview" id="thumbPreview"></div>
+        <button type="submit" class="btn btn-glow btn-full"><i class="fas fa-plus-circle"></i> Add Car</button>
+      </form>
+      <div class="manage-cars"><h4><i class="fas fa-car-side"></i> Listed Cars</h4><div class="manage-grid" id="manageGrid"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><img src="logo.png" alt="" class="flogo"><span class="logo-text">CHITTOR<span class="accent">4</span>WHEELS</span><p>Chittorgarh's most trusted used car dealer.</p></div>
+      <div class="footer-links"><h4>Links</h4><a href="#home">Home</a><a href="#cars">Cars</a><a href="#finance">Finance</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+      <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-user"></i> Rajendra Chaturvedi</p><p><i class="fas fa-phone"></i> 9413316324 / 9602453324</p><a href="https://maps.app.goo.gl/NSm4kxG3PYmzEUXi9" target="_blank"><i class="fas fa-map-marker-alt"></i> View on Map</a></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Chittor4Wheels</p><p>Made with <i class="fas fa-heart" style="color:var(--accent)"></i> in Chittorgarh</p></div>
+  </div>
+  <div class="footer-road"><span></span><span></span><span></span><span></span><span></span></div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="carModal">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    <div class="modal-gallery">
+      <img id="modalImg" src="" alt="Car">
+      <button class="gal-btn gal-prev" id="galPrev"><i class="fas fa-chevron-left"></i></button>
+      <button class="gal-btn gal-next" id="galNext"><i class="fas fa-chevron-right"></i></button>
+      <div class="gal-counter" id="galCounter">1 / 1</div>
+      <div class="gal-thumbs" id="galThumbs"></div>
+    </div>
+    <div class="modal-info">
+      <h2 id="modalName"></h2>
+      <div class="modal-specs"><div class="ms"><i class="fas fa-calendar"></i><span id="modalYear"></span></div><div class="ms"><i class="fas fa-tachometer-alt"></i><span id="modalKm"></span></div><div class="ms"><i class="fas fa-gas-pump"></i><span id="modalFuel"></span></div><div class="ms"><i class="fas fa-car"></i><span id="modalType"></span></div></div>
+      <div class="modal-cta"><a href="tel:+919413316324" class="btn btn-glow"><i class="fas fa-phone-alt"></i> Call</a><a href="https://wa.me/919413316324" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+<script src="script.js"></script>
+</body>
+</html>
