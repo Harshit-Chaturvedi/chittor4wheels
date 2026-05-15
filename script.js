@@ -30,16 +30,7 @@ const STORE_KEY='c4w_cars';
 function getCars(){return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}
 function saveCars(c){localStorage.setItem(STORE_KEY,JSON.stringify(c))}
 
-// Demo cars
-if(getCars().length===0){
-saveCars([
-{id:1,name:'Maruti Swift VXI',year:2021,fuel:'Petrol',images:['https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&h=400&fit=crop']},
-{id:2,name:'Hyundai Creta SX',year:2022,fuel:'Diesel',images:['https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=600&h=400&fit=crop']},
-{id:3,name:'Honda City ZX',year:2020,fuel:'Petrol',images:['https://images.unsplash.com/photo-1606611013016-969c19ba27b5?w=600&h=400&fit=crop']},
-{id:4,name:'Maruti Baleno Alpha',year:2022,fuel:'Petrol',images:['https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop']},
-{id:5,name:'Hyundai Verna SX(O)',year:2021,fuel:'Diesel',images:['https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop']},
-{id:6,name:'Tata Nexon XZ+',year:2023,fuel:'Petrol',images:['https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop']}
-])}
+// Removed Demo cars block
 
 // ===== RENDER CARS =====
 const FB='https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop';
