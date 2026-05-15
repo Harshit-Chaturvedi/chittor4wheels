@@ -121,10 +121,10 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}button,inp
 .af:hover{border-color:var(--accent);transform:translateX(6px)}
 .af-icon{width:40px;height:40px;min-width:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff}
 .af h4{font-family:var(--f1);font-size:.95rem;margin-bottom:.15rem}.af p{font-size:.8rem;color:var(--txt2)}
-.owner-card{background:linear-gradient(135deg,rgba(0,180,255,.06),rgba(0,102,255,.04));border:1px solid rgba(0,180,255,.15);border-radius:var(--r);padding:2rem;text-align:center;margin-bottom:1.5rem}
-.owner-avatar{width:90px;height:90px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.8rem;color:#fff;overflow:hidden;border:2px solid var(--accent)}
+.owner-card{background:linear-gradient(135deg,rgba(0,180,255,.06),rgba(0,102,255,.04));border:1px solid rgba(0,180,255,.15);border-radius:var(--r);padding:2.5rem 1rem;text-align:center;margin-bottom:1.5rem}
+.owner-avatar{width:140px;height:140px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem;color:#fff;overflow:hidden;border:3px solid var(--accent)}
 .owner-avatar img{width:100%;height:100%;object-fit:cover;object-position:top}
-.owner-card h3{font-family:var(--f1);font-size:1.3rem}.owner-role{color:var(--accent);font-size:.85rem;margin:.3rem 0 1rem}
+.owner-card h3{font-family:var(--f1);font-size:1.5rem}.owner-role{color:var(--accent);font-size:.9rem;margin:.3rem 0 1rem}
 .owner-contacts{display:flex;flex-direction:column;gap:.5rem}
 .owner-contacts a{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem;background:var(--glass);border-radius:8px;font-size:.85rem;color:var(--txt2);transition:var(--tr)}
 .owner-contacts a:hover{color:var(--accent);background:rgba(0,180,255,.08)}
