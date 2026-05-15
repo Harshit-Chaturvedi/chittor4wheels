@@ -196,7 +196,8 @@ try {
     });
     const data = await res.json();
     if (data.secure_url) {
-      uploadedUrls.push(data.secure_url);
+      const optimizedUrl = data.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
+      uploadedUrls.push(optimizedUrl);
     } else {
       throw new Error('Upload failed for a file');
     }
