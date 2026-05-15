@@ -173,16 +173,51 @@ files.forEach((f,i)=>{
 });
 
 // ===== ADD CAR =====
-document.getElementById('carForm').addEventListener('submit',e=>{
-e.preventDefault();if(!imgDataArr.length){showToast('Please upload at least one photo!');return}
-const cars=getCars();
-cars.unshift({id:Date.now(),name:document.getElementById('carName').value,year:+document.getElementById('carYear').value,
-fuel:document.getElementById('carFuel').value,images:imgDataArr});
-saveCars(cars);renderCars();renderManage();e.target.reset();imgDataArr=[];
-const p=document.getElementById('uploadPreview');p.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Preview</p>';p.classList.remove('has-img');
-document.getElementById('thumbPreview').innerHTML='';
-document.getElementById('fileDisplay').querySelector('span').textContent='Upload photos';
-showToast('🚗 Car added successfully!')});
+document.getElementById('carForm').addEventListener('submit',async e=>{
+e.preventDefault();
+const files = document.getElementById('carImage').files;
+if(!files.length){showToast('Please upload at least one photo!');return}
+
+const submitBtn = e.target.querySelector('button[type="submit"]');
+const originalText = submitBtn.innerHTML;
+submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+submitBtn.disabled = true;
+
+try {
+  const uploadedUrls = [];
+  for (const file of files) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'Hustler');
+
+    const res = await fetch('https://api.cloudinary.com/v1_1/dvxnanhaa/image/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.secure_url) {
+      uploadedUrls.push(data.secure_url);
+    } else {
+      throw new Error('Upload failed for a file');
+    }
+  }
+
+  const cars=getCars();
+  cars.unshift({id:Date.now(),name:document.getElementById('carName').value,year:+document.getElementById('carYear').value,
+  fuel:document.getElementById('carFuel').value,images:uploadedUrls});
+  saveCars(cars);renderCars();renderManage();e.target.reset();imgDataArr=[];
+  const p=document.getElementById('uploadPreview');p.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Preview</p>';p.classList.remove('has-img');
+  document.getElementById('thumbPreview').innerHTML='';
+  document.getElementById('fileDisplay').querySelector('span').textContent='Upload photos';
+  showToast('🚗 Car added successfully!');
+} catch (err) {
+  console.error(err);
+  showToast('❌ Failed to upload photos. Please try again.');
+} finally {
+  submitBtn.innerHTML = originalText;
+  submitBtn.disabled = false;
+}
+});
 
 // ===== MANAGE / DELETE =====
 function renderManage(){
