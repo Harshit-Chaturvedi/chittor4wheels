@@ -194,8 +194,7 @@ submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
 submitBtn.disabled = true;
 
 try {
-  const uploadedUrls = [];
-  for (const file of files) {
+  const uploadPromises = Array.from(files).map(async (file) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'Hustler');
@@ -206,12 +205,13 @@ try {
     });
     const data = await res.json();
     if (data.secure_url) {
-      const optimizedUrl = data.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
-      uploadedUrls.push(optimizedUrl);
+      return data.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
     } else {
       throw new Error('Upload failed for a file');
     }
-  }
+  });
+
+  const uploadedUrls = await Promise.all(uploadPromises);
 
     await addDoc(collection(db, "cars"), {
       name: document.getElementById('carName').value,
