@@ -212,6 +212,48 @@ a{text-decoration:none;color:inherit}img{max-width:100%;display:block}button,inp
 .modal-cta{display:flex;gap:.6rem}.modal-cta .btn{flex:1;justify-content:center}
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg3);border:1px solid var(--accent);padding:.8rem 1.3rem;border-radius:10px;display:flex;align-items:center;gap:.6rem;z-index:9999;transform:translateY(150%);transition:var(--tr);box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .toast.show{transform:translateY(0)}.toast i{color:var(--accent);font-size:1.1rem}
-@media(max-width:1024px){.upload-wrapper,.about-layout{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}}
-@media(max-width:768px){.nav-links{position:fixed;top:0;right:-100%;width:260px;height:100vh;background:var(--bg2);flex-direction:column;padding:4rem 1.5rem;transition:var(--tr);border-left:1px solid var(--gborder)}.nav-links.open{right:0}.nav-toggle{display:flex}.car-grid{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center;gap:.4rem}}
+@media(max-width:1024px){.about-layout{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}}
+@media(max-width:768px){
+.nav-links{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--bg2);flex-direction:column;padding:4rem 1.5rem;transition:var(--tr);border-left:1px solid var(--gborder);gap:.2rem}
+.nav-links.open{right:0}.nav-toggle{display:flex}
+.nav-link{padding:.75rem 1rem;font-size:.95rem}
+.hero-title{font-size:clamp(1.8rem,7vw,3rem)}
+.hero-sub{font-size:.9rem}
+.hero-btns{flex-direction:column;align-items:center;gap:.8rem}
+.hero-btns .btn{width:100%;max-width:280px;justify-content:center;padding:.9rem 1.5rem}
+.hero-stats{gap:1rem}.stat{font-size:1.6rem}
+.car-grid{grid-template-columns:1fr}
+.car-card-img{height:220px}
+.car-card-name{font-size:1.1rem}
+.car-card-footer .btn{padding:.7rem;font-size:.85rem}
+.finance-grid{grid-template-columns:1fr 1fr}
+.finance-card{padding:1.4rem}
+.contact-grid{grid-template-columns:1fr 1fr}
+.about-features .af{padding:.75rem}
+.owner-card{padding:1.5rem}
+.stats-grid{grid-template-columns:1fr 1fr;gap:.8rem}
+.frow{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;text-align:center;gap:.4rem}
+.intro-content{bottom:10%}
+.intro-title{letter-spacing:3px}
+.intro-logo-img{width:50px;height:50px}
+.modal-card{margin:.5rem;max-height:95vh;overflow-y:auto}
+.modal-gallery{height:240px}
+.modal-info{padding:1rem}
+.modal-specs{grid-template-columns:1fr 1fr}
+.modal-cta .btn{padding:.7rem;font-size:.85rem}
+.sec-head h2{font-size:clamp(1.5rem,5vw,2.2rem)}
+.section{padding:3.5rem 0}
+.container{padding:0 1.2rem}
+.marquee-content{font-size:.72rem;gap:2rem}
+}
+@media(max-width:420px){
+.hero-stats{flex-direction:row;gap:.8rem}.stat-divider{width:1px;height:30px}
+.stat{font-size:1.4rem}.stat-lbl{font-size:.65rem}
+.finance-grid{grid-template-columns:1fr}
+.contact-grid{grid-template-columns:1fr}
+.car-card-footer{flex-direction:column}.car-card-footer .btn{width:100%}
+.intro-title{font-size:1.6rem;letter-spacing:2px}
+.intro-sub{font-size:.7rem}
+}
 

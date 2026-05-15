@@ -30,46 +30,41 @@ const STORE_KEY='c4w_cars';
 function getCars(){return JSON.parse(localStorage.getItem(STORE_KEY)||'[]')}
 function saveCars(c){localStorage.setItem(STORE_KEY,JSON.stringify(c))}
 
-// Demo cars - images is now an array
+// Demo cars
 if(getCars().length===0){
 saveCars([
-{id:1,name:'Maruti Swift VXI',year:2021,km:28000,fuel:'Petrol',type:'hatchback',images:['https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&h=400&fit=crop']},
-{id:2,name:'Hyundai Creta SX',year:2022,km:18000,fuel:'Diesel',type:'suv',images:['https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=600&h=400&fit=crop']},
-{id:3,name:'Honda City ZX',year:2020,km:35000,fuel:'Petrol',type:'sedan',images:['https://images.unsplash.com/photo-1606611013016-969c19ba27b5?w=600&h=400&fit=crop']},
-{id:4,name:'Maruti Baleno Alpha',year:2022,km:22000,fuel:'Petrol',type:'hatchback',images:['https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop']},
-{id:5,name:'Hyundai Verna SX(O)',year:2021,km:30000,fuel:'Diesel',type:'sedan',images:['https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop']},
-{id:6,name:'Tata Nexon XZ+',year:2023,km:12000,fuel:'Petrol',type:'suv',images:['https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop']}
+{id:1,name:'Maruti Swift VXI',year:2021,fuel:'Petrol',images:['https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&h=400&fit=crop']},
+{id:2,name:'Hyundai Creta SX',year:2022,fuel:'Diesel',images:['https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=600&h=400&fit=crop']},
+{id:3,name:'Honda City ZX',year:2020,fuel:'Petrol',images:['https://images.unsplash.com/photo-1606611013016-969c19ba27b5?w=600&h=400&fit=crop']},
+{id:4,name:'Maruti Baleno Alpha',year:2022,fuel:'Petrol',images:['https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop']},
+{id:5,name:'Hyundai Verna SX(O)',year:2021,fuel:'Diesel',images:['https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop']},
+{id:6,name:'Tata Nexon XZ+',year:2023,fuel:'Petrol',images:['https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop']}
 ])}
 
 // ===== RENDER CARS =====
 const FB='https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop';
 function getMainImg(car){
-  // Support both old 'image' field and new 'images' array
   if(car.images && car.images.length) return car.images[0];
   if(car.image) return car.image;
   return FB;
 }
-function renderCars(filter='all'){
+function renderCars(){
 const g=document.getElementById('carGrid'),e=document.getElementById('emptyState');
-const cars=getCars(),f=filter==='all'?cars:cars.filter(c=>c.type===filter);
+const cars=getCars();
 g.innerHTML='';
-if(!f.length){e.style.display='block';return}
+if(!cars.length){e.style.display='block';return}
 e.style.display='none';
-f.forEach((car,i)=>{
+cars.forEach((car,i)=>{
 const imgCount = car.images ? car.images.length : 1;
 const d=document.createElement('div');d.className='car-card';d.style.animationDelay=i*.08+'s';
 d.innerHTML=`<div class="car-card-img"><img src="${getMainImg(car)}" alt="${car.name}" onerror="this.src='${FB}'"><div class="car-card-badge">${car.fuel}</div>${imgCount>1?`<div class="car-card-badge" style="left:auto;right:.8rem"><i class="fas fa-images"></i> ${imgCount}</div>`:''}</div>
 <div class="car-card-body"><h3 class="car-card-name">${car.name}</h3>
-<div class="car-card-specs"><div class="car-spec"><i class="fas fa-calendar-alt"></i> ${car.year}</div><div class="car-spec"><i class="fas fa-tachometer-alt"></i> ${Number(car.km).toLocaleString()} km</div><div class="car-spec"><i class="fas fa-gas-pump"></i> ${car.fuel}</div><div class="car-spec"><i class="fas fa-car"></i> ${car.type[0].toUpperCase()+car.type.slice(1)}</div></div>
+<div class="car-card-specs"><div class="car-spec"><i class="fas fa-calendar-alt"></i> ${car.year}</div><div class="car-spec"><i class="fas fa-gas-pump"></i> ${car.fuel}</div></div>
 <div class="car-card-footer"><button class="btn btn-glow vbtn" data-id="${car.id}"><i class="fas fa-eye"></i> View</button><a href="https://wa.me/919413316324?text=Hi%2C%20I%20am%20interested%20in%20${encodeURIComponent(car.name)}" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> Enquire</a></div></div>`;
 g.appendChild(d)});
 document.querySelectorAll('.vbtn').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();openModal(+b.dataset.id)}));
 }
 renderCars();
-
-// ===== FILTERS =====
-document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
-document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCars(b.dataset.filter)}));
 
 // ===== MODAL WITH GALLERY =====
 let modalImages=[];
@@ -78,11 +73,9 @@ let modalIdx=0;
 function updateGallery(){
   document.getElementById('modalImg').src=modalImages[modalIdx];
   document.getElementById('galCounter').textContent=`${modalIdx+1} / ${modalImages.length}`;
-  // Update thumbs
   document.querySelectorAll('.gal-thumbs img').forEach((t,i)=>{
     t.classList.toggle('active',i===modalIdx);
   });
-  // Show/hide nav buttons
   document.getElementById('galPrev').style.display=modalImages.length>1?'flex':'none';
   document.getElementById('galNext').style.display=modalImages.length>1?'flex':'none';
 }
@@ -94,9 +87,7 @@ modalIdx=0;
 document.getElementById('modalImg').src=modalImages[0];
 document.getElementById('modalName').textContent=c.name;
 document.getElementById('modalYear').textContent=c.year;
-document.getElementById('modalKm').textContent=Number(c.km).toLocaleString()+' km';
 document.getElementById('modalFuel').textContent=c.fuel;
-document.getElementById('modalType').textContent=c.type[0].toUpperCase()+c.type.slice(1);
 // Build thumbs
 const thumbs=document.getElementById('galThumbs');
 thumbs.innerHTML='';
@@ -126,7 +117,6 @@ function openAdmin(){
 document.getElementById('adminSidebar').classList.add('open');
 document.getElementById('adminOverlay').classList.add('open');
 document.body.style.overflow='hidden';
-// Close mobile nav if open
 nt.classList.remove('active');nl.classList.remove('open');
 }
 function closeAdmin(){
@@ -172,9 +162,7 @@ files.forEach((f,i)=>{
   r.onload=ev=>{
     imgDataArr[i]=ev.target.result;
     loaded++;
-    // Show first image in main preview
     if(i===0){preview.innerHTML=`<img src="${ev.target.result}" alt="Preview">`;preview.classList.add('has-img')}
-    // Add thumbnail
     const thumb=document.createElement('img');thumb.src=ev.target.result;thumbDiv.appendChild(thumb);
     if(loaded===files.length){
       document.getElementById('fileDisplay').querySelector('span').textContent=`${files.length} photo${files.length>1?'s':''} selected`;
@@ -189,12 +177,11 @@ document.getElementById('carForm').addEventListener('submit',e=>{
 e.preventDefault();if(!imgDataArr.length){showToast('Please upload at least one photo!');return}
 const cars=getCars();
 cars.unshift({id:Date.now(),name:document.getElementById('carName').value,year:+document.getElementById('carYear').value,
-km:+document.getElementById('carKm').value,fuel:document.getElementById('carFuel').value,
-type:document.getElementById('carType').value,images:imgDataArr});
+fuel:document.getElementById('carFuel').value,images:imgDataArr});
 saveCars(cars);renderCars();renderManage();e.target.reset();imgDataArr=[];
-const p=document.getElementById('uploadPreview');p.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Photo Preview</p>';p.classList.remove('has-img');
+const p=document.getElementById('uploadPreview');p.innerHTML='<i class="fas fa-cloud-upload-alt"></i><p>Preview</p>';p.classList.remove('has-img');
 document.getElementById('thumbPreview').innerHTML='';
-document.getElementById('fileDisplay').querySelector('span').textContent='Click to upload multiple photos';
+document.getElementById('fileDisplay').querySelector('span').textContent='Upload photos';
 showToast('🚗 Car added successfully!')});
 
 // ===== MANAGE / DELETE =====
@@ -206,7 +193,7 @@ cars.forEach(c=>{
 const d=document.createElement('div');d.className='manage-item';
 const imgSrc=getMainImg(c);
 const count=c.images?c.images.length:1;
-d.innerHTML=`<img src="${imgSrc}" alt="${c.name}" onerror="this.src='${FB}'"><div><h4>${c.name}</h4><p>${c.year} • ${c.fuel} • ${Number(c.km).toLocaleString()} km • ${count} photo${count>1?'s':''}</p></div><button class="del-btn" data-id="${c.id}"><i class="fas fa-trash"></i></button>`;
+d.innerHTML=`<img src="${imgSrc}" alt="${c.name}" onerror="this.src='${FB}'"><div><h4>${c.name}</h4><p>${c.year} • ${c.fuel} • ${count} photo${count>1?'s':''}</p></div><button class="del-btn" data-id="${c.id}"><i class="fas fa-trash"></i></button>`;
 g.appendChild(d)});
 document.querySelectorAll('.del-btn').forEach(b=>b.addEventListener('click',()=>{
 if(confirm('Delete this car?')){const cars=getCars().filter(x=>x.id!==+b.dataset.id);saveCars(cars);renderCars();renderManage();showToast('Car deleted')}}));}
