@@ -28,6 +28,7 @@ document.querySelector('.hero-stats')&&sO.observe(document.querySelector('.hero-
 // ===== FIREBASE INIT =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtHM_9KjduZKX6f2KXNXLyZ7d1STjHXcQ",
@@ -39,6 +40,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 let allCars = [];
 
 // ===== RENDER CARS =====
@@ -120,8 +122,8 @@ document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('carModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 
 // ===== ADMIN SIDEBAR =====
-const ADMIN_PASS='chittor4wheels2026';
-let isAdmin=sessionStorage.getItem('c4w_admin')==='true';
+const ADMIN_EMAIL='admin@chittor4wheels.com';
+let isAdmin=false;
 
 function openAdmin(){
 document.getElementById('adminSidebar').classList.add('open');
@@ -138,23 +140,43 @@ document.getElementById('adminToggleBtn').addEventListener('click',openAdmin);
 document.getElementById('adminCloseBtn').addEventListener('click',closeAdmin);
 document.getElementById('adminOverlay').addEventListener('click',closeAdmin);
 
-function checkAdmin(){
-if(isAdmin){document.getElementById('adminLogin').style.display='none';document.getElementById('adminDash').style.display='block';renderManage()}}
-checkAdmin();
+// Firebase Auth state listener - remembers login across refreshes
+onAuthStateChanged(auth, (user) => {
+  if(user) {
+    isAdmin = true;
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminDash').style.display='block';
+    renderManage();
+  } else {
+    isAdmin = false;
+    document.getElementById('adminDash').style.display='none';
+    document.getElementById('adminLogin').style.display='block';
+  }
+});
 
-document.getElementById('adminLoginBtn').addEventListener('click',()=>{
-const p=document.getElementById('adminPass').value;
-if(p===ADMIN_PASS){isAdmin=true;sessionStorage.setItem('c4w_admin','true');
-document.getElementById('adminLogin').style.display='none';document.getElementById('adminDash').style.display='block';
-document.getElementById('loginError').textContent='';renderManage();showToast('✅ Welcome, Rajendra Ji!')}
-else{document.getElementById('loginError').textContent='❌ Wrong password!'}});
+document.getElementById('adminLoginBtn').addEventListener('click', async ()=>{
+  const p=document.getElementById('adminPass').value;
+  const btn=document.getElementById('adminLoginBtn');
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Logging in...';
+  btn.disabled=true;
+  try {
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, p);
+    document.getElementById('loginError').textContent='';
+    showToast('✅ Welcome, Rajendra Ji!');
+  } catch(err) {
+    document.getElementById('loginError').textContent='❌ Wrong password!';
+  } finally {
+    btn.innerHTML='<i class="fas fa-unlock"></i> Login';
+    btn.disabled=false;
+  }
+});
 
 document.getElementById('adminPass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('adminLoginBtn').click()});
 
-document.getElementById('adminLogout').addEventListener('click',()=>{
-isAdmin=false;sessionStorage.removeItem('c4w_admin');
-document.getElementById('adminDash').style.display='none';document.getElementById('adminLogin').style.display='block';
-showToast('Logged out')});
+document.getElementById('adminLogout').addEventListener('click', async ()=>{
+  await signOut(auth);
+  showToast('Logged out');
+});
 
 // ===== MULTI-IMAGE UPLOAD =====
 let imgDataArr=[];
